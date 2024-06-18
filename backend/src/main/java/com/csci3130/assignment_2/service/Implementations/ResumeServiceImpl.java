@@ -39,24 +39,29 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<String> getQualifications(String role) {
         List<Resume> resumes = resumeRepository.findByRole(role);
-
+        if (resumes.isEmpty()) {
+            throw new ResumeNotFoundException("No resumes found for role: " + role);
+        }
         List<String> qualifications = new ArrayList<>();
         for (Resume resume : resumes) {
             qualifications.add(resume.getQualifications());
         }
         return qualifications;
-
     }
 
     @Override
     public List<String> getWorkExperience(String role) {
         List<Resume> resumes = resumeRepository.findByRole(role);
+        if (resumes.isEmpty()) {
+            throw new ResumeNotFoundException("No resumes found for role: " + role);
+        }
         List<String> workExperiences = new ArrayList<>();
         for (Resume resume : resumes) {
             workExperiences.add(resume.getWorkExperience());
         }
         return workExperiences;
     }
+
     @Override
     public List<Resume> getResumesByExperience(int minYearsOfExperience) {
         List<Resume> allResumes = resumeRepository.findAll();
@@ -68,8 +73,9 @@ public class ResumeServiceImpl implements ResumeService {
                 filteredResumes.add(resume);
             }
         }
+        if (filteredResumes.isEmpty()) {
+            throw new ResumeNotFoundException("No resumes found with at least " + minYearsOfExperience + " years of experience");
+        }
         return filteredResumes;
     }
-
-
 }

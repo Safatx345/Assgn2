@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 class ResumeServiceImplTest {
@@ -28,14 +29,14 @@ class ResumeServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-
     }
+
     Resume resume1 = new Resume();
     Resume resume2 = new Resume();
     Resume resume3 = new Resume();
+
     @Test
     void testGetQualifications() {
-
         resume1.setRole("developer");
         resume1.setQualifications("B.Sc. in CS");
 
@@ -46,15 +47,24 @@ class ResumeServiceImplTest {
 
         List<String> qualifications = resumeService.getQualifications("tutor");
 
-
         assertEquals("M.Sc. in CS", qualifications.get(0));
+    }
+
+    @Test
+    void testGetQualifications_NotFound() {
+        when(resumeRepository.findByRole("tutor")).thenReturn(Collections.emptyList());
+
+        Exception exception = assertThrows(ResumeServiceImpl.ResumeNotFoundException.class, () -> {
+            resumeService.getQualifications("tutor");
+        });
+
+        assertEquals("No resumes found for role: tutor", exception.getMessage());
     }
 
     @Test
     void testGetWorkExperience() {
         resume1.setRole("tutor");
         resume1.setWorkExperience("Ph.D. in CS");
-
 
         resume2.setRole("tutor");
         resume2.setWorkExperience("M.ED.in Education");
@@ -67,6 +77,18 @@ class ResumeServiceImplTest {
         assertEquals("Ph.D. in CS", workExperiences.get(0));
         assertEquals("M.ED.in Education", workExperiences.get(1));
     }
+
+    @Test
+    void testGetWorkExperience_NotFound() {
+        when(resumeRepository.findByRole("tutor")).thenReturn(Collections.emptyList());
+
+        Exception exception = assertThrows(ResumeServiceImpl.ResumeNotFoundException.class, () -> {
+            resumeService.getWorkExperience("tutor");
+        });
+
+        assertEquals("No resumes found for role: tutor", exception.getMessage());
+    }
+
     @Test
     void testCreateResume() {
         Resume resume = new Resume("Alice", "Johnson", "alice.johnson@example.com", "tutor", "Ph.D. in Computer Science", "C++, Data Structures", "Published 10 research papers", "Algorithms, Data Structures", "10 years", "Professor at University");
@@ -88,6 +110,7 @@ class ResumeServiceImplTest {
         assertEquals("10 years", capturedResume.getYearsOfExperience());
         assertEquals("Professor at University", capturedResume.getWorkExperience());
     }
+
     @Test
     void testGetResumeByRole() {
         resume1 = new Resume("John", "Doe", "john.doe@example.com", "developer", "B.Sc. Computer Science", "Java, Spring Boot", "Improved system performance", "N/A", "5 years", "Software Developer at XYZ");
@@ -98,8 +121,19 @@ class ResumeServiceImplTest {
 
         assertEquals(1, resumes.size());
         assertEquals("John", resumes.get(0).getFirstName());
-
     }
+
+    @Test
+    void testGetResumeByRole_NotFound() {
+        when(resumeRepository.findByRole("developer")).thenReturn(Collections.emptyList());
+
+        Exception exception = assertThrows(ResumeServiceImpl.ResumeNotFoundException.class, () -> {
+            resumeService.getResume("developer");
+        });
+
+        assertEquals("No resumes found for role: developer", exception.getMessage());
+    }
+
     @Test
     void testGetResumesByExperience() {
         // Arrange
@@ -107,20 +141,28 @@ class ResumeServiceImplTest {
         resume2 = new Resume("Jane", "Smith", "jane.smith@example.com", "tutor", "M.Sc. Software Engineering", "ReactJS, NodeJS", "Increased user engagement", "N/A", "7 years", "Frontend Developer at ABC");
         resume3 = new Resume("Bob", "Johnson", "bob.johnson@example.com", "Developer", "B.Sc. in IT", "C++, SQL", "Led team projects", "Operating Systems", "8 years", "Amazon");
 
-        when(resumeRepository.findAll()).thenReturn(Arrays.asList(resume2, resume3));
-
+        when(resumeRepository.findAll()).thenReturn(Arrays.asList(resume1, resume2, resume3));
 
         List<Resume> result = resumeService.getResumesByExperience(5);
-
 
         assertEquals(2, result.size());
         assertEquals(7, getYearsOfExperience(result.get(0)));
         assertEquals(8, getYearsOfExperience(result.get(1)));
-
     }
+
+    @Test
+    void testGetResumesByExperience_NotFound() {
+        when(resumeRepository.findAll()).thenReturn(Collections.emptyList());
+
+        Exception exception = assertThrows(ResumeServiceImpl.ResumeNotFoundException.class, () -> {
+            resumeService.getResumesByExperience(5);
+        });
+
+        assertEquals("No resumes found with at least 5 years of experience", exception.getMessage());
+    }
+
     private int getYearsOfExperience(Resume resume) {
         String years = resume.getYearsOfExperience();
         return Integer.parseInt(years.split(" ")[0]);
     }
-
 }
