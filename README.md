@@ -7,7 +7,7 @@ The React application is present under the `frontend` folder. To start the front
 
 - `cd frontend`
 - `npm install`
-- `npm start`
+
 
 ## Back End
 
