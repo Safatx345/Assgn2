@@ -1,0 +1,36 @@
+.create-resume-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  .create-resume-title {
+    margin-bottom: 20px;
+  }
+  
+  .create-resume-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 300px;
+  }
+  
+  .create-resume-form input,
+  .create-resume-form select,
+  .create-resume-form textarea,
+  .create-resume-form button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .create-resume-form button {
+    background-color: #007BFF;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
+  
