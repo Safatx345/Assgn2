@@ -1,4 +1,4 @@
-package com.csci3130.assignment_2_demo.model;
+package com.csci3130.assignment_2.model;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Id;

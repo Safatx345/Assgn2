@@ -1,10 +1,10 @@
-package com.csci3130.assignment_2_demo;
+package com.csci3130.assignment_2;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Assignment2DemoApplicationTests {
+class Assignment2ApplicationTests {
 
 	@Test
 	void contextLoads() {

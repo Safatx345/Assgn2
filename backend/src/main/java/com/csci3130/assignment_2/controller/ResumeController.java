@@ -1,8 +1,8 @@
-package com.csci3130.assignment_2_demo.controller;
+package com.csci3130.assignment_2.controller;
 
 
-import com.csci3130.assignment_2_demo.model.Resume;
-import com.csci3130.assignment_2_demo.service.ResumeService;
+import com.csci3130.assignment_2.model.Resume;
+import com.csci3130.assignment_2.service.ResumeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +34,10 @@ public class ResumeController {
     @GetMapping("/get/work-experience/{role}")
     public List<String> getWorkExperience(@PathVariable String role) {
         return resumeService.getWorkExperience(role);
+    }
+    @GetMapping("/get/by-experience/{minYearsOfExperience}")
+    public List<Resume> getResumesByExperience(@PathVariable int minYearsOfExperience) {
+        return resumeService.getResumesByExperience(minYearsOfExperience);
     }
 
 }

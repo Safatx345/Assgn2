@@ -1,8 +1,8 @@
-package com.csci3130.assignment_2_demo.service;
+package com.csci3130.assignment_2.service;
 
-import com.csci3130.assignment_2_demo.model.Resume;
-import com.csci3130.assignment_2_demo.repository.ResumeRepository;
-import com.csci3130.assignment_2_demo.service.Implementations.ResumeServiceImpl;
+import com.csci3130.assignment_2.model.Resume;
+import com.csci3130.assignment_2.repository.ResumeRepository;
+import com.csci3130.assignment_2.service.Implementations.ResumeServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -32,6 +32,7 @@ class ResumeServiceImplTest {
     }
     Resume resume1 = new Resume();
     Resume resume2 = new Resume();
+    Resume resume3 = new Resume();
     @Test
     void testGetQualifications() {
 
@@ -99,4 +100,27 @@ class ResumeServiceImplTest {
         assertEquals("John", resumes.get(0).getFirstName());
 
     }
+    @Test
+    void testGetResumesByExperience() {
+        // Arrange
+        resume1 = new Resume("John", "Doe", "john.doe@example.com", "developer", "B.Sc. Computer Science", "Java, Spring Boot", "Improved system performance", "N/A", "4 years", "Software Developer at XYZ");
+        resume2 = new Resume("Jane", "Smith", "jane.smith@example.com", "tutor", "M.Sc. Software Engineering", "ReactJS, NodeJS", "Increased user engagement", "N/A", "7 years", "Frontend Developer at ABC");
+        resume3 = new Resume("Bob", "Johnson", "bob.johnson@example.com", "Developer", "B.Sc. in IT", "C++, SQL", "Led team projects", "Operating Systems", "8 years", "Amazon");
+
+        when(resumeRepository.findAll()).thenReturn(Arrays.asList(resume2, resume3));
+
+
+        List<Resume> result = resumeService.getResumesByExperience(5);
+
+
+        assertEquals(2, result.size());
+        assertEquals(7, getYearsOfExperience(result.get(0)));
+        assertEquals(8, getYearsOfExperience(result.get(1)));
+
+    }
+    private int getYearsOfExperience(Resume resume) {
+        String years = resume.getYearsOfExperience();
+        return Integer.parseInt(years.split(" ")[0]);
+    }
+
 }

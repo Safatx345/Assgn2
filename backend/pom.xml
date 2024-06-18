@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.csci3130</groupId>
-	<artifactId>assignment-2-demo</artifactId>
+	<artifactId>assignment-2</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>assignment-2-demo</name>
 	<description>Demo project for Assignment 2</description>

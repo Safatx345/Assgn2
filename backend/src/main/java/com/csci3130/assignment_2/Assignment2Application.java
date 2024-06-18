@@ -1,13 +1,13 @@
-package com.csci3130.assignment_2_demo;
+package com.csci3130.assignment_2;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Assignment2DemoApplication {
+public class Assignment2Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Assignment2DemoApplication.class, args);
+		SpringApplication.run(Assignment2Application.class, args);
 	}
 
 }
