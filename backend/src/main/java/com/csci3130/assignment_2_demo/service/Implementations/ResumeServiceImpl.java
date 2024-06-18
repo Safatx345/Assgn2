@@ -27,7 +27,26 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeRepository.findByRole(role);
     }
 
+    @Override
+    public List<String> getQualifications(String role) {
+        List<Resume> resumes = resumeRepository.findByRole(role);
+        List<String> qualifications = new ArrayList<>();
+        for (Resume resume : resumes) {
+            qualifications.add(resume.getQualifications());
+        }
+        return qualifications;
 
+    }
+
+    @Override
+    public List<String> getWorkExperience(String role) {
+        List<Resume> resumes = resumeRepository.findByRole(role);
+        List<String> workExperiences = new ArrayList<>();
+        for (Resume resume : resumes) {
+            workExperiences.add(resume.getWorkExperience());
+        }
+        return workExperiences;
+    }
 
 
 }

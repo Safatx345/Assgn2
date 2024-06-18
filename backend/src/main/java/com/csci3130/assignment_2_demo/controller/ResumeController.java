@@ -26,6 +26,14 @@ public class ResumeController {
         return resumeService.getResume(role);
     }
 
+    @GetMapping("/get/qualifications/{role}")
+    public List<String> getQualifications(@PathVariable String role) {
+        return resumeService.getQualifications(role);
+    }
 
+    @GetMapping("/get/work-experience/{role}")
+    public List<String> getWorkExperience(@PathVariable String role) {
+        return resumeService.getWorkExperience(role);
+    }
 
 }
